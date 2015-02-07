@@ -2,21 +2,19 @@
 @import "vendor.css";
 
 body, html {
-    padding: 0;
-    margin: 0;
+  margin: 0;
+  padding: 10px 0 0;
 
-    position:absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 
-    -webkit-font-smoothing:antialiased;
-    font-family: 'Roboto', sans-serif;
-
-    padding-top: 10px;
-
-    /*fancy scroll bar. by fancy I mean none. */
+  -webkit-font-smoothing:antialiased;
+  font-family: 'Roboto', sans-serif;
+  
+  /*fancy scroll bar. by fancy I mean none. */
     ::-webkit-scrollbar {
         display: none;
     }
