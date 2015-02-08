@@ -1,19 +1,22 @@
-var ExampleApplication = React.createClass({
-  render: function() {
-    var elapsed = Math.round(this.props.elapsed  / 100);
-    var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
-    var message =
-      'React has been successfully running for ' + seconds + ' seconds.';
+/* @jsx React.DOM */
 
-    return <p>{message}</p>;
-  }
+// Library Dependencies //
+var React = require('react');
+
+// File Dependencies //
+var Channels = require("./components/Channels.jsx");
+
+var SlackApplication = React.createClass({
+    render: function () {
+        return (
+            <div className="chan">
+                <p>This is the channel stuff</p>
+                <Channels />
+            </div>
+        )
+    }
 });
 
-var start = new Date().getTime();
-
-setInterval(function() {
-  React.render(
-    <ExampleApplication elapsed = {new Date().getTime() - start} />,
-    $('.container').get(0)
-  );
-}, 50);
+React.render (
+    <SlackApplication />, $("#container").get(0)
+);
