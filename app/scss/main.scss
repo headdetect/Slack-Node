@@ -19,3 +19,21 @@ body, html {
         display: none;
     }
 }
+
+.login {
+  padding: 5px;
+  .img {
+    vertical-align: middle;
+    margin-bottom: 20px;
+  }
+
+  .ul {
+    list-style: none;
+    display: block;
+    padding: 2px;
+
+    .li {
+      margin-top: 5px;
+    }
+  }
+}
