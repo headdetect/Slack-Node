@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-var Channels = React.createClass({
+var Login = React.createClass({
     render: function() {
         return (
-           <div class="login">
+           <div className="login">
                <img src="img/slack-logo.png" />
 
                 <ul>
@@ -16,4 +16,4 @@ var Channels = React.createClass({
     }
 });
 
-module.exports = Channels;
+module.exports = Login;
