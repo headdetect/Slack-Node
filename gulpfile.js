@@ -13,6 +13,11 @@ gulp.task('sass', function () {
         .pipe(sass())
         .pipe(gulp.dest('./public/css/'))
         .on('error', handleError);
+    gulp.src('./app/scss/login.scss')
+        .pipe(catify('login.css'))
+        .pipe(sass())
+        .pipe(gulp.dest('./public/css/'))
+        .on('error', handleError);
 });
 
 gulp.task('css', function () {
