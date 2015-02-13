@@ -14,7 +14,7 @@ var isLoginWindow = true
 var SlackApplication = React.createClass({
     render: function () {
         return (
-            <div>
+            <div className="fillDiv">
                 <Toolbar title="Slack" />
                 <div className="chan">
                     <p>This is the channel stuff</p>

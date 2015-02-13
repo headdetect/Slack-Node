@@ -47,7 +47,7 @@ gulp.task('migrate', function () {
 
 // move images //
     gulp.src('./app/img/*')
-        .pipe(gulp.dest('./public/fonts/'))
+        .pipe(gulp.dest('./public/img/'))
         .on('error', handleError);
 
     gulp.src('./app/package.json')
