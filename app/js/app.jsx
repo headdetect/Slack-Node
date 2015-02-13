@@ -1,5 +1,30 @@
 /* @jsx React.DOM */
 
+(function(window) {
+    var gui = require('nw.gui');
+    var loginWindow = true;
+    var win = gui.Window.get();
+
+    function isLoginWindow() {
+        return loginWindow;
+    }
+
+    function setIsLoginWindow(val) {
+        loginWindow = val;
+        if (loginWindow) {
+            win.width = 280;
+            win.height = 430;
+        } else {
+            //TODO Change this to something else maybe..?
+            win.width = 1024;
+            win.height = 720;
+        }
+    }
+
+    window.isLoginWindow = isLoginWindow;
+    window.setIsLoginWindow = setIsLoginWindow;
+})(window);
+
 // Library Dependencies //
 var React = require('react');
 
@@ -7,8 +32,6 @@ var React = require('react');
 var Channels = require("./components/Channels.jsx");
 
 var Login = require("./components/Login.jsx");
-
-var isLoginWindow = true;
 
 var SlackApplication = React.createClass({
     render: function () {
@@ -22,5 +45,5 @@ var SlackApplication = React.createClass({
 });
 
 React.render (
-    (isLoginWindow ? <Login /> : <SlackApplication />), $("#container").get(0)
+    (isLoginWindow() ? <Login /> : <SlackApplication />), $("#container").get(0)
 );

@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-var Channels = React.createClass({
+var Login = React.createClass({
     render: function() {
         return (
            <div class="login">
@@ -16,4 +16,4 @@ var Channels = React.createClass({
     }
 });
 
-module.exports = Channels;
+module.exports = Login;
