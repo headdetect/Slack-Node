@@ -21,6 +21,10 @@
         <script src="js/vendor/sweet-alert.min.js"></script>
         <script src="js/vendor/keymaster.js"></script>
 
+        <script>
+            window.requireNode = window.require;
+            window.require = undefined;
+        </script>
         <script src="js/app.js"></script>
     </body>
 </html>
