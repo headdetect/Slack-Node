@@ -11,11 +11,6 @@ gulp.task('sass', function () {
         .pipe(sass())
         .pipe(gulp.dest('./public/css/'))
         .on('error', handleError);
-    gulp.src('./app/scss/login.scss')
-        .pipe(catify('login.css'))
-        .pipe(sass())
-        .pipe(gulp.dest('./public/css/'))
-        .on('error', handleError);
 });
 
 gulp.task('css', function () {
@@ -47,6 +42,11 @@ gulp.task('migrate', function () {
 
 // move fonts //
     gulp.src('./app/fonts/*')
+        .pipe(gulp.dest('./public/fonts/'))
+        .on('error', handleError);
+
+// move images //
+    gulp.src('./app/img/*')
         .pipe(gulp.dest('./public/fonts/'))
         .on('error', handleError);
 
