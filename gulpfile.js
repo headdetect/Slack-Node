@@ -1,8 +1,6 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var catify = require('gulp-concat');
-var uglyfy = require('gulp-uglify');
-var mincss = require('gulp-minify-css');
 var reactify = require('reactify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -13,12 +11,16 @@ gulp.task('sass', function () {
         .pipe(sass())
         .pipe(gulp.dest('./public/css/'))
         .on('error', handleError);
+    gulp.src('./app/scss/login.scss')
+        .pipe(catify('login.css'))
+        .pipe(sass())
+        .pipe(gulp.dest('./public/css/'))
+        .on('error', handleError);
 });
 
 gulp.task('css', function () {
     gulp.src('./app/scss/vendor/*.css')
         .pipe(catify('vendor.css'))
-        .pipe(mincss({keepSpecialComments: 0}))
         .pipe(gulp.dest('./public/css/'))
         .on('error', handleError);
 });
@@ -55,7 +57,6 @@ gulp.task('migrate', function () {
 
 gulp.task('vendorjs', function () {
     gulp.src('./app/js/vendor/*.js')
-        .pipe(uglyfy())
         .pipe(gulp.dest('./public/js/vendor/'))
         .on('error', handleError);
 });
