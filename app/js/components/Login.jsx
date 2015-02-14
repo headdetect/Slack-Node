@@ -3,7 +3,6 @@ var React = require('react');
 var Toolbar = require('./Toolbar.jsx');
 var LoginDomain = require('./LoginDomain.jsx');
 var LoginUser = require('./LoginUser.jsx');
-var Transition = require('react-transition');
 
 var gui = requireNode('nw.gui');
 var win = gui.Window.get();
