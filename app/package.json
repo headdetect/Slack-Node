@@ -6,8 +6,8 @@
   "single-instance": true,
   "dom_storage_quota": 1024,
   "window": {
-    "toolbar": false,
-    "frame": false,
+    "toolbar": true,
+    "frame": true,
     "position": "center",
     "width": 700,
     "height": 500

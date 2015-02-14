@@ -1,45 +1,38 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Toolbar = require('./Toolbar.jsx');
+var LoginDomain = require('./LoginDomain.jsx');
+var LoginUser = require('./LoginUser.jsx');
+var Transition = require('react-transition');
+
 var gui = requireNode('nw.gui');
 var win = gui.Window.get();
 
 var Login = React.createClass({
     getInitialState: function() {
-        return {username: '', password: ''};
+        return {domain: '', step: 0};
     },
-    handleUserChange: function(event) {
-        this.setState({username: event.target.value});
-    },
-    handlePasswordChange: function(event) {
-        this.setState({password: event.target.value});
-    },
-    login: function() {
-        var username = this.state.username;
-        var password = this.state.password;
+    next: function(val) {
+        if (val === '') return;
 
-        console.log("Login with " + username + " " + password + "!");
+        this.setState({step: 1, domain: val});
+    },
+    login: function(username, password) {
+        console.log("Login with " + username + " " + password + " @ " + this.state.domain + " !");
     },
     render: function() {
         win.resizeTo(280, 450);
         win.setMinimumSize(280, 450);
-        win.setMaximumSize(280, 450);
+        //win.setMaximumSize(280, 450);
+        var step = this.state.step;
 
-        var username = this.state.username;
-        var password = this.state.password;
+        var currentDisplay = (step == 0 ? <LoginDomain next={this.next} /> : <LoginUser next={this.login} />)
+
         return (
-           <div className="fillDiv">
-               <Toolbar title="Login" />
-               <div className="login">
-                   <img src="img/slack-logo.png" />
-                   <ul>
-                       <li><input type="email" className="form-control" placeholder="Email" value={username} onChange={this.handleUserChange} /></li>
-                       <li><input type="password" className="form-control" placeholder="Password" value={password} onChange={this.handlePasswordChange} /></li>
-                   </ul>
-
-                   <button onClick={this.login} className="btn btn-success">Login</button>
-               </div>
-           </div>
+            <div className="fillDiv">
+                <Toolbar title="Login" />
+                {currentDisplay}
+            </div>
         )
     }
 });
