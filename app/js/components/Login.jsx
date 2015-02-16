@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var slack = require('../lib/slack.js');
 var React = require('react');
 var Toolbar = require('./Toolbar.jsx');
 var LoginDomain = require('./LoginDomain.jsx');
@@ -16,8 +17,20 @@ var Login = React.createClass({
 
         this.setState({step: 1, domain: val});
     },
-    login: function(username, password) {
+    doLogin: function(username, password) {
         console.log("Login with " + username + " " + password + " @ " + this.state.domain + " !");
+
+        var options = {
+            username: username,
+            password: password,
+            domain: this.state.domain
+        };
+
+        slack.login(options, function(chatPage) {
+            console.log("Got chat page " + chatPage + " !!");
+        }, function(e) {
+            console.log("error :/   " + e);
+        });
     },
     render: function() {
         win.resizeTo(280, 450);
@@ -25,7 +38,7 @@ var Login = React.createClass({
         //win.setMaximumSize(280, 450);
         var step = this.state.step;
 
-        var currentDisplay = (step == 0 ? <LoginDomain next={this.next} /> : <LoginUser next={this.login} />)
+        var currentDisplay = (step == 0 ? <LoginDomain next={this.next} /> : <LoginUser next={this.doLogin} />)
 
         return (
             <div className="fillDiv">

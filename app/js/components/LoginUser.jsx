@@ -1,8 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Toolbar = require('./Toolbar.jsx');
-var gui = requireNode('nw.gui');
-var win = gui.Window.get();
 
 var LoginUser = React.createClass({
     getInitialState: function() {

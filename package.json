@@ -15,7 +15,8 @@
     "mkdirp": "*",
     "react-tools": "*",
     "nodewebkit": "*",
-    "react": "^0.12.x"
+    "react": "^0.12.x",
+    "cheerio": "0.18.x"
   },
   "scripts": {
     "app": "nodewebkit public"

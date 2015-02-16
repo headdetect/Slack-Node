@@ -1,8 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Toolbar = require('./Toolbar.jsx');
-var gui = requireNode('nw.gui');
-var win = gui.Window.get();
 
 var LoginDomain = React.createClass({
     getInitialState: function() {
@@ -16,10 +14,6 @@ var LoginDomain = React.createClass({
         this.props.next(domain);
     },
     render: function() {
-        win.resizeTo(280, 450);
-        win.setMinimumSize(280, 450);
-        win.setMaximumSize(280, 450);
-
         var domain = this.state.domain;
         var buttonStyle = {
             marginTop: '25px'
