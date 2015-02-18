@@ -1,7 +1,9 @@
 /** @jsx React.DOM */
 var slack = require('../lib/slack.js');
-var fs = require('fs');
-var os = require('os');
+var fs = requireNode('fs');
+var os = requireNode('os');
+var mkdirp  = requireNode('mkdirp');
+
 var React = require('react');
 var Toolbar = require('./Toolbar.jsx');
 var LoginDomain = require('./LoginDomain.jsx');
@@ -30,11 +32,12 @@ var Login = React.createClass({
 
         slack.login(options, function(chatPage) {
             console.log("Saving chat page..");
-            fs.writeFile(os.tmpdir() + "\\nslack.html", function (err) {
+            mkdirp('./tmp/')
+            fs.writeFile("tmp/nslack.html", chatPage, function (err) {
                 if (err) {
                     console.log("Error :/ " + err);
                 } else {
-                    gui.Window.open(os.tmpdir() + "\\nslack.html", {
+                    gui.Window.open("tmp/nslack.html", {
                       position: 'center',
                       width: 1024,
                       height: 720
