@@ -19,6 +19,10 @@
     "cheerio": "0.18.x"
   },
   "scripts": {
-    "app": "nodewebkit public"
+    "app": "gulp && nodewebkit public"
+  },
+  "dependencies": {
+    "express": "^4.11.2",
+    "serve-static": "^1.9.1"
   }
 }

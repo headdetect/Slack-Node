@@ -2,8 +2,10 @@
   "name": "Slack",
   "description": "Slack in node",
   "version": "0.1a",
-  "main": "index.html",
+  "node-main": "proxify.js",
+  "main": "start.html",
   "single-instance": true,
+  "node-remote": "http://localhost:8080",
   "dom_storage_quota": 1024,
   "window": {
     "toolbar": true,

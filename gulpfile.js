@@ -25,6 +25,10 @@ gulp.task('jsx', function () {
         .pipe(gulp.dest('./public/js/lib/'))
         .on('error', handleError);
 
+    gulp.src('./app/proxify.js')
+        .pipe(gulp.dest('./public/'))
+        .on('error', handleError);
+
     var b = browserify('./app/js/app.jsx');
         b.transform(reactify);
     return b.bundle()
@@ -62,9 +66,10 @@ gulp.task('vendorjs', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./app/scss/*.scss', ['sass']);
-    gulp.watch('./app/js/**/*.jsx', ['jsx']);
-    gulp.watch('./app/**/*', ['migrate']);
+    // TODO: Get better watch system...
+    //gulp.watch('./app/scss/*.scss', ['sass']);
+    //gulp.watch('./app/js/**/*.jsx', ['jsx']);
+    //gulp.watch('./app/**/*', ['migrate']);
 });
 
 
