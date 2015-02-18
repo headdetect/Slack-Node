@@ -30,18 +30,22 @@ var Login = React.createClass({
             domain: this.state.domain
         };
 
+        var _domain = this.state.domain;
+
         slack.login(options, function(chatPage) {
             console.log("Saving chat page..");
-            mkdirp('./tmp/')
+
+            mkdirp('./tmp/');
             fs.writeFile("tmp/nslack.html", chatPage, function (err) {
                 if (err) {
                     console.log("Error :/ " + err);
                 } else {
-                    gui.Window.open("tmp/nslack.html", {
+                    var newWin = gui.Window.open("tmp/nslack.html", {
                       position: 'center',
                       width: 1024,
                       height: 720
                     });
+                    newWin.SLACK_DOMAIN = _domain;
                     win.close();
                 }
             });
