@@ -34,7 +34,14 @@ module.exports = {
                     var cookie2 = cookieData2.split(';')[0];
 
                     completeCallback(cookie1, cookie2);*/
-                    completeCallback(data); //Slack is responding with the chat page HTML instead of the cookies..
+
+                    var $ = cheerio.load(data);
+                    $('body').append("<script type=\"text/javascript\" 
+src=\"js/slack_inject.js\">");
+                    
+                    data = $.html();
+                    completeCallback(data); //Slack is responding with the chat page HTML 
+instead of the cookies..
                 });
             });
 
