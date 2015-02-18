@@ -36,7 +36,7 @@ module.exports = {
                     completeCallback(cookie1, cookie2);*/
 
                     var $ = cheerio.load(data);
-                    $('body').append("<script type=\"text/javascript\" src=\"js/slack_inject.js\">");
+                    $('body').append("<script type=\"text/javascript\" src=\"../js/lib/slack_inject.js\">");
 
                     data = $.html();
                     completeCallback(data); //Slack is responding with the chat page HTML instead of the cookies..
