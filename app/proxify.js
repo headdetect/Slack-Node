@@ -1,6 +1,6 @@
 // This is a core file and should not be included in the js library //
 
-(function() {
+(function(events) {
     console.log("==== Starting Proxy ====");
 
     var http = require("http"),
@@ -14,10 +14,15 @@
 
 
         if (!uri.match(/\/local\/.*/)) {
-            // Serve Slack stuff //
-            response.writeHead(200, {"Content-Type": "text/plain"});
-            response.write("Slack Content");
-            response.end();
+            events.onSlackContent(uri, function(data) {
+                var domainedUrl = "https://" + data.domain + ".slack.com/" + uri;
+                http.get(domainedUrl, function(content) {
+                    // Serve Slack stuff //
+                    response.writeHead(200, {"Content-Type": "text/plain"});
+                    response.write(content);
+                    response.end();
+                });
+            });
             return;
         }
 
@@ -27,6 +32,7 @@
 
         fs.exists(filename, function (exists) {
             if (!exists) {
+
                 response.writeHead(404, {"Content-Type": "text/plain"});
                 response.write("404 Not Found\n");
                 response.end();
@@ -49,4 +55,13 @@
             });
         });
     }).listen(port);
-})();
+})(global.ProxyEvents);
+
+_proxyEvents = function() {
+    this.slackContentHandler = null;
+    this.onSlackContent = function(uri, onComplete) {
+        onComplete(slackContentHandler(uri))
+    }
+}
+
+global.ProxyEvents = new _proxyEvents();

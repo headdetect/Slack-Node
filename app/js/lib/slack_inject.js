@@ -6,4 +6,11 @@ function log(msg) {
     console.log("[Slack-Node] " + msg);
 }
 
-log("Slack has been injected?");
+log("Attaching to Proxy Events", global.ProxyEvents);
+
+global.ProxyEvents.slackContentHandler = function(uri) {
+    return {
+        headers: 'TODO: headers',
+        domain: 'catcup'
+    }
+}
