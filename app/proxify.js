@@ -26,8 +26,7 @@
             return;
         }
 
-        var prePath = (process.env.PWD ? process.env.PWD + "/public" : process.cwd());
-        var filename = path.join(prePath, uri.slice('/local'.length, uri.length));
+        var filename = path.join(process.cwd() || process.env.PWD + "/public", uri.slice('/local'.length, uri.length));
 
         console.log("Serving " +  filename);
 
