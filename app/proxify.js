@@ -29,12 +29,13 @@ global.ProxyEvents = new _proxyEvents();
             console.log("This is a slack request!");
             events.onSlackContent(uri, function(data) {
                 //var domainedUrl = "https://" + data.domain + ".slack.com/" + uri;
-                request.rawHeaders.Cookie = data.cookies;
                 var requestOptions = {
                     hostname: data.domain + '.slack.com',
                     port: 443,
                     path: uri,
-                    headers: request.rawHeaders,
+                    headers: {
+                        'Cookie': data.cookie
+                    },
                     method: request.method
                 };
 
@@ -42,16 +43,8 @@ global.ProxyEvents = new _proxyEvents();
 
 
                 var slackRequest = https.request(requestOptions, function(res) {
-                    console.log("Got response for " + uri + " : " + res.statusCode + " !");
-                    var data = '';
-                    console.log("Sending response..");
-                    response.writeHead(200, res.rawHeaders);
-                    res.on('data', function(chunk) {
-                        response.write(chunk);
-                    });
-                    res.on('end', function() {
-                        console.log("Response sent!");
-                        response.end();
+                    res.pipe(response, {
+                        end: true
                     });
                 });
 
@@ -61,7 +54,10 @@ global.ProxyEvents = new _proxyEvents();
                 });
 
                 console.log("Invoking request.end()");
-                slackRequest.end();
+
+                request.pipe(slackRequest, {
+                    end: true
+                });
 
                 /*http.get(domainedUrl, function(content) {
                     // Serve Slack stuff //
