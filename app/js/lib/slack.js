@@ -8,11 +8,12 @@ module.exports = {
         var password = options['password'];
 
         this.getCrumbFor(domain, function (crumb) {
+            crumb = encodeURIComponent(crumb);
             var loginData = "signin=1&redir=&crumb=" + crumb + "&email=" + username + "&password=" + password + "&remember=on";
+
             var loginOptions = {
                 hostname: domain + '.slack.com',
                 port: 443,
-                path: '/',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -20,26 +21,61 @@ module.exports = {
                 }
             };
 
+            /*var loginForm = {
+                signin: '1',
+                crumb: crumb,
+                email: username,
+                password: password,
+                remember: 'on'
+            };
+
+            var j = request.jar();
+
+            request.post({url: 'https://' + domain + '.slack.com', formData: loginForm, jar: j}, function(err, httpResponse, body) {
+                if (err) {
+                    errorCallback("Login failed: " + err);
+                }
+                else if (body.indexOf("That password is incorrect. Please try again.") > -1) {
+                    errorCallback("That password is incorrect.");
+                } else if (body.indexOf("Sorry, we can't find an account with that email address.") > -1) {
+                    errorCallback("That email is incorrect.");
+                } else {
+                    var cookies = j.getCookies('.slack.com');
+
+                    console.log(body);
+                    console.log(cookies);
+
+                    var $ = cheerio.load(body);
+                    $('body').append("<script type=\"text/javascript\" src=\"../js/lib/slack_inject.js\">");
+
+                    body = $.html();
+                    completeCallback(body); //Slack is responding with the chat page HTML instead of the cookies..
+                }
+            });*/
+
             var req = http.request(loginOptions, function (res) {
                 var data = '';
                 res.on('data', function(chunk) {
                     data += chunk;
                 });
                 res.on('end', function() {
-                    /*console.log(data);
-                    var cookieData1 = res.headers['set-cookie'][0];
-                    var cookieData2 = res.headers['set-cookie'][1];
 
-                    var cookie1 = cookieData1.split(';')[0];
-                    var cookie2 = cookieData2.split(';')[0];
-
-                    completeCallback(cookie1, cookie2);*/
+                    if (data.indexOf("That password is incorrect. Please try again.") > -1) {
+                        errorCallback("That password is incorrect.");
+                        return;
+                    }
+                    if (data.indexOf("Sorry, we can't find an account with that email address.") > -1) {
+                        errorCallback("That email is incorrect.");
+                        return;
+                    }
 
                     var $ = cheerio.load(data);
                     $('body').append("<script type=\"text/javascript\" src=\"../js/lib/slack_inject.js\">");
 
                     data = $.html();
-                    completeCallback(data); //Slack is responding with the chat page HTML instead of the cookies..
+                    setTimeout(function() {
+                        completeCallback(data);
+                    }, 900); //Wait a few for nw.js to save the cookies
                 });
             });
 

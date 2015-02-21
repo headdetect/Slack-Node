@@ -14,6 +14,12 @@ var win = gui.Window.get();
 
 var Login = React.createClass({
     getInitialState: function() {
+        win.cookies.getAll({domain: '.slack.com'}, function(cookies) {
+            for (var i = 0; i < cookies.length; i++) {
+                win.cookies.remove({url: cookies[i].domain, name: cookies[i].name});
+            }
+        });
+
         return {domain: '', step: 0};
     },
     next: function(val) {
@@ -22,6 +28,8 @@ var Login = React.createClass({
         this.setState({step: 1, domain: val});
     },
     doLogin: function(username, password) {
+        document.body.className = 'waiting';
+
         console.log("Login with " + username + " " + password + " @ " + this.state.domain + " !");
 
         var options = {
@@ -38,19 +46,39 @@ var Login = React.createClass({
             mkdirp('./tmp/');
             fs.writeFile("tmp/nslack.html", chatPage, function (err) {
                 if (err) {
-                    console.log("Error :/ " + err);
+                    swal("Error going to chat page", e, "error");
+                    document.body.className = '';
                 } else {
-                    var newWin = gui.Window.open("tmp/nslack.html", {
-                      position: 'center',
-                      width: 1024,
-                      height: 720
+                    console.log("Obtaining cookies..");
+
+                    var cookieHeader = '';
+                    win.cookies.getAll({domain: '.slack.com'}, function(cookies) {
+                        for (var i = 0; i < cookies.length; i++) {
+                            cookieHeader += cookies[i].name + '=' + cookies[i].value + '; ';
+                        }
+
+                        console.log("Hooking into proxy..");
+                         global.ProxyEvents.slackContentHandler = function(uri) {
+                             return {
+                                 cookies: cookieHeader,
+                                 domain: _domain
+                             }
+                         };
+
+                         console.log("Displaying Chat");
+                         var newWin = gui.Window.open("tmp/nslack.html", {
+                           position: 'center',
+                           width: 1024,
+                           height: 720
+                         });
+                         newWin.SLACK_DOMAIN = _domain;
+                         win.close();
                     });
-                    newWin.SLACK_DOMAIN = _domain;
-                    win.close();
                 }
             });
         }, function(e) {
-            console.log("error :/   " + e);
+            swal("Could not sign in", e, "error");
+            document.body.className = '';
         });
     },
     render: function() {
