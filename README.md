@@ -1,6 +1,8 @@
 Slack-Node
 ===========================
 
+### [Too late](http://slackhq.com/post/113969353750/slack-for-windows)
+
  We just wanted a windows slack client... :(
 
 ### Technologies 
